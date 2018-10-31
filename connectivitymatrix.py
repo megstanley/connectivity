@@ -2,6 +2,21 @@ import numpy as np
 import networkx as nx
 
 class ConnectivityMatrix():
+    """A class to contain a connectivity matrix representing a single brain.
+
+    Parameters
+    ----------
+    Cmat : numpy array
+        Input the connectivity matrix.
+
+    Attributes
+    ----------
+    connectome_size : int
+        Dimension of the connectivity matrix; the number of brain regions included/number of graph nodes.
+    connectome : numpy array
+        The connectivity matrix itself.
+
+    """
 
     def __init__(self, Cmat):
         self.connectome_size = Cmat.shape[0]
@@ -34,4 +49,3 @@ class ConnectivityMatrix():
         self.eigvecs = np.array(eigvecs)[:,valsort]
 
     def centrality(self):
-        
