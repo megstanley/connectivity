@@ -1,7 +1,4 @@
 import numpy as np
-from scipy.io import loadmat
-import os
-
 
 class ConnectivityMatrix():
 
@@ -17,9 +14,20 @@ class ConnectivityMatrix():
         coldiag = np.diag(np.sum(self.adjacency, axis = 1))
         self.degree = np.sqrt(rowdiag*coldiag) #matrix with degrees of nodes on the diagonal
 
+    def normalise_connectome(self):
+        rowsum = np.sum(self.connectome, axis = 0)
+        colsum = np.sum(self.connectome, axis = 1)
+        norm = np.sqrt(rowsum*colsum) #making normalization vector
+        self.norm_connectome = np.divide(self.connectome, norm)
+
     def get_laplacian(self):
         '''calculate a normalised Laplacian matrix from the connectivity'''
-        self.rowsum = np.sum(self.connectome, axis = 0)
-        self.colsum = np.sum(self.connectome, axis = 1)
-        self.norm = np.sqrt(self.rowsum*self.colsum).reshape(self.connectome_size) #making normalization vector
-        self.laplacian = np.identity(self.connectome_size) - np.divide(self.connectome, self.norm)
+        self.laplacian = np.identity(self.connectome_size) - self.norm_connectome
+
+    def get_eigenvectors(self):
+        '''return eigenvalues and eigenvectors of the Laplacian, sorted
+        from smallest eigenvalue to largest'''
+        eigvals,eigvecs = np.linalg.eig(self.laplacian)
+        valsort = np.argsort(eigvals)
+        self.eigvals = np.array(eigvals)[valsort]
+        self.eigvecs = np.array(eigvecs)[:,valsort]
