@@ -1,4 +1,5 @@
 import numpy as np
+import networkx as nx
 
 class ConnectivityMatrix():
 
@@ -31,3 +32,6 @@ class ConnectivityMatrix():
         valsort = np.argsort(eigvals)
         self.eigvals = np.array(eigvals)[valsort]
         self.eigvecs = np.array(eigvecs)[:,valsort]
+
+    def centrality(self):
+        
