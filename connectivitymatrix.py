@@ -49,3 +49,10 @@ class ConnectivityMatrix():
         self.eigvecs = np.array(eigvecs)[:,valsort]
 
     def centrality(self):
+        '''find principle eigenvector of weighted adjacency matrix (normalised
+        connectome) -- measures centrality of each node'''
+        eigvals,eigvecs = np.linalg.eig(self.norm_connectome)
+        valsort = np.argsort(eigvals)
+        eigvecs = np.array(eigvecs)[:,valsort]
+        centrality = eigvecs[:,self.connectome_size]
+        return centrality
