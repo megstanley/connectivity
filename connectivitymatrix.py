@@ -2,27 +2,23 @@ import numpy as np
 import networkx as nx
 
 class ConnectivityMatrix():
-    """A class to contain a connectivity matrix representing a single brain.
+    """Short summary.
 
-    Parameters
-    ----------
-    Cmat : numpy array
-        Input the connectivity matrix.
+    Args:
+        Cmat (type): Description of parameter `Cmat`.
 
-    Attributes
-    ----------
-    connectome_size : int
-        Dimension of the connectivity matrix; the number of brain regions included/number of graph nodes.
-    connectome : numpy array
-        The connectivity matrix itself.
+    Attributes:
+        connectome_size (type): Description of parameter `connectome_size`.
+        connectome (type): Description of parameter `connectome`.
 
     """
+    #TO DO: Implement 'property' instead of directly accessing variables. 
 
     def __init__(self, Cmat):
         self.connectome_size = Cmat.shape[0]
         self.connectome = Cmat
 
-    def get_adjacency(self):
+    def adjacency(self):
         '''calculate the adjacency matrix from the connectivity,
         returns 1 if a connection is present'''
         self.adjacency = (self.connectome > 0).astype(int)
@@ -34,19 +30,22 @@ class ConnectivityMatrix():
         rowsum = np.sum(self.connectome, axis = 0)
         colsum = np.sum(self.connectome, axis = 1)
         norm = np.sqrt(rowsum*colsum) #making normalization vector
-        self.norm_connectome = np.divide(self.connectome, norm)
+        norm_connectome = np.divide(self.connectome, norm)
+        return norm_connectome
 
-    def get_laplacian(self):
+    def laplacian(self):
         '''calculate a normalised Laplacian matrix from the connectivity'''
-        self.laplacian = np.identity(self.connectome_size) - self.norm_connectome
+        laplacian = np.identity(self.connectome_size) - self.norm_connectome
+        return laplacian
 
-    def get_eigenvectors(self):
+    def eigenvectors(self):
         '''return eigenvalues and eigenvectors of the Laplacian, sorted
         from smallest eigenvalue to largest'''
         eigvals,eigvecs = np.linalg.eig(self.laplacian)
         valsort = np.argsort(eigvals)
         self.eigvals = np.array(eigvals)[valsort]
         self.eigvecs = np.array(eigvecs)[:,valsort]
+        return eigvals, eigvecs
 
     def centrality(self):
         '''find principle eigenvector of weighted adjacency matrix (normalised
