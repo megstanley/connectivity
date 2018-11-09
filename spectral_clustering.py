@@ -1,3 +1,6 @@
+'''Ignore this: we have decided to implement a brain class for this type of thing'''
+
+
 import numpy as np
 from scipy.io import loadmat
 import os

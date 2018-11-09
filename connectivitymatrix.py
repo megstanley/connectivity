@@ -5,14 +5,14 @@ class ConnectivityMatrix():
     """Short summary.
 
     Args:
-        Cmat (type): Description of parameter `Cmat`.
+        Cmat (type): connectivity matrix.
 
     Attributes:
-        connectome_size (type): Description of parameter `connectome_size`.
-        connectome (type): Description of parameter `connectome`.
+        connectome_size (type): size of square matrix size -- number of connectome nodes.
+        connectome (type):representation of connectome as the matrix.
 
     """
-    #TO DO: Implement 'property' instead of directly accessing variables. 
+    #TO DO: Implement 'property' instead of directly accessing variables.
 
     def __init__(self, Cmat):
         self.connectome_size = Cmat.shape[0]
